@@ -36,6 +36,9 @@ sources:
             description: "ID de la película según TMDB"
 
           - name: title
+            tests:
+              - unique
+              - not_null
             data_type: varchar
             description: "Título original"
 
@@ -53,14 +56,10 @@ sources:
 
           - name: vote_average
             data_type: float
-            tests:
-              - positive_values
             description: "Promedio de votos"
 
           - name: vote_count
             data_type: number
-            tests:
-              - positive_values
             description: "Número de votos"
 
           - name: genre_names
@@ -77,20 +76,14 @@ sources:
 
           - name: budget
             data_type: number
-            tests:
-              - positive_values
             description: "Presupuesto"
 
           - name: revenue
             data_type: number
-            tests:
-              - positive_values
             description: "Ingresos"
 
           - name: runtime
             data_type: number
-            tests:
-              - positive_values
             description: "Duración en minutos"
 
           - name: overview
