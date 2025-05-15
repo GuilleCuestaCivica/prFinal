@@ -1,0 +1,61 @@
+version: 2
+
+sources:
+  - name: api_mas_visto
+    schema: api_mas_visto
+    database: ALUMNO6_DEV_BRONZE_DB_PR
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: { count: 2422222, period: day }
+      error_after: { count: 48, period: hour }
+
+    tables:
+      - name: populares
+        description: "Tabla en la que aparece distinta información sobre los géneros más y menos vistos, género de la audiencia, edad, etc."
+        columns:
+          - name: pais
+            data_type: varchar
+            description: "hash del nombre del país"
+            tests:
+              - not_null
+              - unique
+
+          - name: codigo
+            data_type: varchar
+            description: "código del país abreviado"
+
+          - name: genero_favorito
+            data_type: varchar
+            description: "género más visto en ese país"
+            tests:
+              - accepted_values:
+                  values: ['Animation', 'Thriller', 'Family', 'Drama', 'Action', 'Comedy', 'Adventure', 'Horror', 'Romance', 'Crime', 'Documentary', 'War', 'Fantasy']
+
+          - name: genero_menos_favorito
+            data_type: varchar
+            description: "género menos visto en ese país"
+            tests:
+              - accepted_values:
+                  values: ['Animation', 'Thriller', 'Family', 'Drama', 'Action', 'Comedy', 'Adventure', 'Horror', 'Romance', 'Crime', 'Documentary', 'War', 'Fantasy']
+
+          - name: tendencia_cine
+            data_type: varchar
+            description: "tendencia de popularidad a ver películas"
+            tests:
+              - accepted_values:
+                  values: ['Aumento', 'Estable', 'Disminución']
+          
+          - name: edad_consumidores
+            data_type: varchar
+            description: "franjas de edad de los consumidores en porcentaje"
+
+          - name: genero_consumidores
+            data_type: varchar
+            description: "genero de los consumidores en porcentajes"
+
+          

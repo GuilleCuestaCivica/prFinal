@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: stg_populares
+    description: "Staging transformado con métricas limpias de consumo"
+    columns:
+      - name: pais_id
+        description: "ID generado a partir del nombre del país"
+        tests:
+          - not_null
+          - unique
+
+      - name: tendencia_cine
+        description: "Tendencia del consumo de cine en el país"
+        tests:
+          - accepted_values:
+              values: ['Aumento', 'Estable', 'Disminucion']
+
+      - name: "18_24_pct"
+        description: "Porcentaje de espectadores entre 18 y 24 años"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: "25_34_pct"
+        description: "Porcentaje de espectadores entre 25 y 34 años"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: "35_44_pct"
+        description: "Porcentaje de espectadores entre 35 y 44 años"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: "45_mas_pct"
+        description: "Porcentaje de espectadores de más de 45 años"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: masculino_pct
+        description: "Porcentaje de espectadores que se identifican como masculinos"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: femenino_pct
+        description: "Porcentaje de espectadores que se identifican como femeninos"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: otro_pct
+        description: "Porcentaje de espectadores que se identifican con otro género"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100

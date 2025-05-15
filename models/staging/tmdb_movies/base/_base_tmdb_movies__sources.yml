@@ -1,0 +1,119 @@
+version: 2
+
+sources:
+  - name: tmdb_movies
+    schema: tmdb_movies
+    database: ALUMNO6_DEV_BRONZE_DB_PR
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: { count: 1, period: day }
+      error_after: { count: 48, period: hour }
+
+    loaded_at_field: inserted_at
+
+    tables:
+      - name: _dlt_loads
+        description: ""
+        columns:
+          - name: load_id
+            tests:
+              - unique
+              - not_null
+          - name: inserted_at
+      - name: movies
+        description: "Películas desde TMDB vía DLT"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+            data_type: number
+            description: "ID de la película según TMDB"
+
+          - name: title
+            data_type: varchar
+            description: "Título original"
+
+          - name: original_language
+            data_type: varchar
+            description: "Código del idioma original"
+
+          - name: release_date
+            data_type: date
+            description: "Fecha de estreno"
+
+          - name: popularity
+            data_type: float
+            description: "Puntaje de popularidad"
+
+          - name: vote_average
+            data_type: float
+            tests:
+              - positive_values
+            description: "Promedio de votos"
+
+          - name: vote_count
+            data_type: number
+            tests:
+              - positive_values
+            description: "Número de votos"
+
+          - name: genre_names
+            data_type: varchar
+            description: "Géneros como string separado por comas"
+
+          - name: director
+            data_type: varchar
+            description: "Director principal"
+
+          - name: main_actors
+            data_type: varchar
+            description: "Actores principales"
+
+          - name: budget
+            data_type: number
+            tests:
+              - positive_values
+            description: "Presupuesto"
+
+          - name: revenue
+            data_type: number
+            tests:
+              - positive_values
+            description: "Ingresos"
+
+          - name: runtime
+            data_type: number
+            tests:
+              - positive_values
+            description: "Duración en minutos"
+
+          - name: overview
+            data_type: varchar
+            description: "Resumen o sinopsis"
+
+          - name: status
+            data_type: varchar
+            description: "Estado de lanzamiento"
+
+          - name: production_companies
+            data_type: varchar
+            description: "Compañías productoras"
+
+          - name: production_countries
+            data_type: varchar
+            description: "Países productores"
+
+          - name: _dlt_load_id
+            data_type: varchar
+            description: "ID de carga asignado por DLT"
+
+          - name: _dlt_id
+            data_type: varchar
+            description: "ID de registro asignado por DLT"
+
