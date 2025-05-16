@@ -25,10 +25,6 @@ sources:
               - not_null
               - unique
 
-          - name: codigo
-            data_type: varchar
-            description: "código del país abreviado"
-
           - name: genero_favorito
             data_type: varchar
             description: "género más visto en ese país"

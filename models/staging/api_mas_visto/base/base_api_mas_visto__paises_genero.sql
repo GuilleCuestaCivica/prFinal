@@ -9,7 +9,6 @@ populares_transform AS(
     SELECT
         {{ dbt_utils.generate_surrogate_key(['pais']) }} AS pais_id,
         pais AS pais_desc,
-        {{ country_from_codes_sql('codigo') }} AS codigo,
         genero_favorito,
         genero_menos_favorito,
         {{ remove_accents('tendencia_cine') }} AS tendencia_cine,
