@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: peliculas_info
+    schema: peliculas_info
+    database: ALUMNO6_DEV_BRONZE_DB_PR
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: { count: 1, period: day }
+      error_after: { count: 48, period: hour }
+
+    tables:
+      - name: movies
+        description: "Películas desde TMDB vía DLT"
+
+      - name: _dlt_loads
+        

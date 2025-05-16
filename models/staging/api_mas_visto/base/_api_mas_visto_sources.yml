@@ -32,25 +32,25 @@ sources:
               - accepted_values:
                   values: ['Animation', 'Thriller', 'Family', 'Drama', 'Action', 'Comedy', 'Adventure', 'Horror', 'Romance', 'Crime', 'Documentary', 'War', 'Fantasy']
 
-          - name: genero_menos_favorito
+          - name: genero_menos_visto
             data_type: varchar
             description: "género menos visto en ese país"
             tests:
               - accepted_values:
                   values: ['Animation', 'Thriller', 'Family', 'Drama', 'Action', 'Comedy', 'Adventure', 'Horror', 'Romance', 'Crime', 'Documentary', 'War', 'Fantasy']
 
-          - name: tendencia_cine
+          - name: tendencia
             data_type: varchar
             description: "tendencia de popularidad a ver películas"
             tests:
               - accepted_values:
                   values: ['Aumento', 'Estable', 'Disminución']
           
-          - name: edad_consumidores
+          - name: distribucion_por_edad
             data_type: varchar
             description: "franjas de edad de los consumidores en porcentaje"
 
-          - name: genero_consumidores
+          - name: distribucion_por_genero
             data_type: varchar
             description: "genero de los consumidores en porcentajes"
 

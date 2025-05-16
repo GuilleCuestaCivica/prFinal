@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: _stg_peliculas_info_movies
+    description: ""
