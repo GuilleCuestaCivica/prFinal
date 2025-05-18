@@ -16,7 +16,104 @@ sources:
 
     tables:
       - name: movies
-        description: "Películas desde TMDB vía DLT"
+        description: "Películas ingestadas a través de DLT desde la API de TMDb. Contiene tanto atributos estáticos como dinámicos para análisis histórico."
+        columns:
+          - name: id_pelicula
+            data_type: varchar
+            # tests:
+            #   - not_null
+            description: "Identificador único de la película según TMDb."
+
+          - name: id_snap
+            data_type: varchar
+            # tests:
+            #   - not_null
+            #   - unique
+            description: "Identificador único formado por el identificador de la peliucla y el identificador de la carga DLT."
+
+          - name: titulo
+            data_type: varchar
+            # tests:
+            #   - not_null
+            description: "Título de la película."
+
+          - name: original_language
+            data_type: varchar
+            description: "Idioma original en el que fue producida la película."
+
+          - name: fecha_estreno
+            data_type: date
+            description: "Fecha oficial de estreno de la película."
+
+          - name: popularidad
+            data_type: float
+            description: "Índice de popularidad actual basado en métricas de TMDb."
+
+          - name: media_votos
+            data_type: float
+            description: "Puntuación media otorgada por los usuarios."
+
+          - name: conteo_votos
+            data_type: number
+            description: "Número total de votos recibidos por la película."
+
+          - name: genero
+            data_type: varchar
+            description: "Lista de géneros a los que pertenece la película."
+
+          - name: director
+            data_type: varchar
+            description: "Nombre del director principal de la película."
+
+          - name: actores_principales
+            data_type: varchar
+            description: "Nombres de los tres actores o actrices principales."
+
+          - name: presupuesto
+            data_type: number
+            description: "Presupuesto estimado en dólares de la producción."
+
+          - name: ingresos
+            data_type: number
+            description: "Ingresos generados mundialmente por la película."
+
+          - name: duracion
+            data_type: number
+            description: "Duración total de la película en minutos."
+
+          - name: descripcion
+            data_type: varchar
+            description: "Resumen o sinopsis oficial de la película."
+
+          - name: compania
+            data_type: varchar
+            description: "Lista de compañías productoras involucradas."
+
+          - name: pais_producion
+            data_type: varchar
+            description: "Países donde fue producida la película."
+
+          - name: _dlt_load_id
+            data_type: varchar
+            # tests:
+            #   - not_null
+            description: "Identificador único del lote de carga generado por DLT."
+
+          - name: _dlt_id
+            data_type: varchar
+            # tests:
+            #   - not_null
+            description: "Identificador único del registro dentro del lote."
 
       - name: _dlt_loads
-        
+        description: "Tabla interna generada por DLT que registra metadatos de cada carga, incluyendo fecha de inserción e ID de lote."
+        columns:
+          - name: load_id
+            # tests:
+            #   - not_null
+            description: "Identificador que indica en qué lote ha sido ingestado por DLT"
+
+          - name: inserted_at
+            # tests:
+            #   - not_null
+            description: "Fecha que indica cuándo ha sido ingestado"

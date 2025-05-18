@@ -36,16 +36,17 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  proyecto_peliculas:
-    base:
+  my_new_project:
+   staging:
       +materialized: view
+      +intermediate:
+        +schema: dbt_gcuesta
       +database: "ALUMNO6_DEV_SILVER_DB_PR"
-      +schema: gcuesta
-    staging:
-      +materialized: view
-      +database: "ALUMNO6_DEV_SILVER_DB_PR"
-      +schema: gcuesta
-    marts:
-      +materialized: view
-      +database: "ALUMNO6_DEV_SILVER_DB_PR"
-      +schema: gcuesta
+      tmdb_movies:
+        +schema: dbt_gcuesta
+        +on_schema_change: "sync_all_columns" #https://docs.getdbt.com/docs/build/incremental-models#how-do-incremental-models-work-behind-the-scenes o añadirlo en el config cuando se haga el modelo(tabla incremental)
+      tmdb_movies_staging:
+        +schema: dbt_gcuesta
+        +on_schema_change: "sync_all_columns" #https://docs.getdbt.com/docs/build/incremental-models#how-do-incremental-models-work-behind-the-scenes
+      api_mas_visto:                          #no hay contratos para sync_all_columns
+        +schema: dbt_gcuesta  

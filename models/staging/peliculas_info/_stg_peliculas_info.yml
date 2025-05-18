@@ -2,4 +2,169 @@ version: 2
 
 models:
   - name: _stg_peliculas_info_movies
-    description: ""
+    description: "Vista staging con la información estandarizada de películas, preparada para transformaciones posteriores en capas silver o gold."
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        description: "Identificador único de la película, generado como surrogate key."
+        # tests:
+        #   - not_null
+        #   - unique
+
+      - name: id_snap
+        data_type: varchar
+        description: "Identificador único por snapshot (combinación de id_pelicula y _dlt_load_id)."
+
+      - name: titulo
+        data_type: varchar
+        description: "Título principal de la película."
+
+      - name: original_language
+        data_type: varchar
+        description: "Código de idioma original de la película (por ejemplo, 'en' para inglés)."
+
+      - name: fecha_estreno
+        data_type: date
+        description: "Fecha de estreno oficial de la película."
+
+      - name: popularidad
+        data_type: float
+        description: "Valor de popularidad según la fuente original, basado en visitas o interacción."
+
+      - name: media_votos
+        data_type: float
+        description: "Promedio de votos recibidos por la película."
+
+      - name: conteo_votos
+        data_type: number
+        description: "Cantidad total de votos recibidos."
+
+      - name: genero
+        data_type: varchar
+        description: "Géneros asociados a la película, como una cadena separada por comas."
+
+      - name: director
+        data_type: varchar
+        description: "Nombre del director principal de la película."
+
+      - name: actores_principales
+        data_type: varchar
+        description: "Lista de actores principales separados por comas."
+
+      - name: presupuesto
+        data_type: number
+        description: "Presupuesto estimado de producción de la película en dólares."
+
+      - name: ingresos
+        data_type: number
+        description: "Ingresos generados por la película en taquilla (revenue)."
+
+      - name: duracion
+        data_type: number
+        description: "Duración total de la película en minutos."
+
+      - name: descripcion
+        data_type: varchar
+        description: "Resumen o sinopsis de la película."
+
+      - name: compania
+        data_type: varchar
+        description: "Compañías de producción responsables de la película."
+
+      - name: pais_producion
+        data_type: varchar
+        description: "País o países donde se produjo la película."
+
+      - name: _dlt_load_id
+        data_type: varchar
+        description: "Identificador de la carga (batch) proporcionado por DLT."
+
+      - name: _dlt_id
+        data_type: varchar
+        description: "Identificador interno del registro proporcionado por DLT."
+
+      - name: inserted_at
+        data_type: timestamp_tz
+        description: "Marca de tiempo en la que se insertó el registro en la base de datos."
+
+  - name: directores
+    description: "Tabla con información única de directores, derivada del campo 'director' en la tabla de películas."
+    columns:
+      - name: id_director
+        data_type: varchar
+        description: "Identificador único del director, generado como surrogate key."
+        # tests:
+        #   - unique
+        #   - not_null
+
+      - name: director
+        data_type: varchar
+        description: "Nombre del director."
+        # tests:
+        #   - not_null
+
+  - name: info_generos
+    description: "Tabla de relación entre películas y géneros, con el nombre del género y su identificador."
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        description: "Identificador único de la película."
+
+      - name: titulo
+        data_type: varchar
+        description: "Título de la película."
+
+      - name: nombre_genero
+        data_type: varchar
+        description: "Nombre del género asociado."
+
+      - name: id_genero
+        data_type: varchar
+        description: "Identificador único del género, generado como surrogate key."
+        # tests:
+        #   - not_null
+
+    # tests:
+    #   - dbt_utils.unique_combination_of_columns:
+    #       combination_of_columns: ['id_pelicula', 'id_genero']
+
+  - name: generos
+    description: "Tabla de géneros únicos extraídos desde el campo 'genero' en películas."
+    columns:
+      - name: id_genero
+        data_type: varchar
+        description: "Identificador único del género."
+        # tests:
+        #   - unique
+        #   - not_null
+
+      - name: nombre_genero
+        data_type: varchar
+        description: "Nombre del género (por ejemplo, 'Drama', 'Comedy')."
+        # tests:
+        #   - not_null
+
+  - name: info_directores
+    description: "Tabla de relación entre películas y directores, con nombres y claves técnicas."
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        description: "Identificador único de la película."
+
+      - name: titulo
+        data_type: varchar
+        description: "Título de la película."
+
+      - name: director
+        data_type: varchar
+        description: "Nombre del director."
+
+      - name: id_director
+        data_type: varchar
+        description: "Identificador único del director, generado como surrogate key."
+        # tests:
+        #   - not_null
+
+    # tests:
+    #   - dbt_utils.unique_combination_of_columns:
+    #       combination_of_columns: ['id_pelicula', 'id_director']
