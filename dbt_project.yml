@@ -42,11 +42,14 @@ models:
       +intermediate:
         +schema: dbt_gcuesta
       +database: "ALUMNO6_DEV_SILVER_DB_PR"
-      tmdb_movies:
+      peliculas_info:
         +schema: dbt_gcuesta
-        +on_schema_change: "sync_all_columns" #https://docs.getdbt.com/docs/build/incremental-models#how-do-incremental-models-work-behind-the-scenes o añadirlo en el config cuando se haga el modelo(tabla incremental)
-      tmdb_movies_staging:
-        +schema: dbt_gcuesta
-        +on_schema_change: "sync_all_columns" #https://docs.getdbt.com/docs/build/incremental-models#how-do-incremental-models-work-behind-the-scenes
+        +database: ALUMNO6_DEV_SILVER_DB_PR    
       api_mas_visto:                          #no hay contratos para sync_all_columns
         +schema: dbt_gcuesta  
+snapshots:
+  proyecto_peliculas:
+    +target_schema: snapshots
+    +materialized: snapshot
+    +database: ALUMNO6_DEV_SILVER_DB_PR
+    +schema: snapshots

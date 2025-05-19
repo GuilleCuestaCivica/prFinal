@@ -31,7 +31,7 @@ loads AS (
 tabla_join AS (
     SELECT
         m.*,
-        ROW_NUMBER() OVER (PARTITION BY id_pelicula ORDER BY inserted_at DESC) AS row_num,
+        ROW_NUMBER() OVER (PARTITION BY id_pelicula ORDER BY inserted_at DESC, id_snap DESC) AS row_num,
         l.inserted_at
     FROM movies m
     INNER JOIN loads l ON m._dlt_load_id = l.load_id
