@@ -30,4 +30,3 @@ SELECT * from tabla_join
     where INSERTED_AT > (select max(INSERTED_AT) from {{ this }})
 
 {% endif %}
-

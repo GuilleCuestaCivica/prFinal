@@ -18,23 +18,16 @@ sources:
       - name: movies
         description: "Películas ingestadas a través de DLT desde la API de TMDb. Contiene tanto atributos estáticos como dinámicos para análisis histórico."
         columns:
-          - name: id_pelicula
+          - name: id
             data_type: varchar
-            # tests:
-            #   - not_null
+            tests:
+              - not_null
             description: "Identificador único de la película según TMDb."
 
-          - name: id_snap
+          - name: title
             data_type: varchar
-            # tests:
-            #   - not_null
-            #   - unique
-            description: "Identificador único formado por el identificador de la peliucla y el identificador de la carga DLT."
-
-          - name: titulo
-            data_type: varchar
-            # tests:
-            #   - not_null
+            tests:
+              - not_null
             description: "Título de la película."
 
           - name: original_language
@@ -95,25 +88,25 @@ sources:
 
           - name: _dlt_load_id
             data_type: varchar
-            # tests:
-            #   - not_null
+            tests:
+              - not_null
             description: "Identificador único del lote de carga generado por DLT."
 
           - name: _dlt_id
             data_type: varchar
-            # tests:
-            #   - not_null
+            tests:
+              - not_null
             description: "Identificador único del registro dentro del lote."
 
       - name: _dlt_loads
         description: "Tabla interna generada por DLT que registra metadatos de cada carga, incluyendo fecha de inserción e ID de lote."
         columns:
           - name: load_id
-            # tests:
-            #   - not_null
+            tests:
+              - not_null
             description: "Identificador que indica en qué lote ha sido ingestado por DLT"
 
           - name: inserted_at
-            # tests:
-            #   - not_null
+            tests:
+              - not_null
             description: "Fecha que indica cuándo ha sido ingestado"
