@@ -36,15 +36,14 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  my_new_project:
+  proyecto_peliculas:
    staging:
       +materialized: view
       +intermediate:
         +schema: dbt_gcuesta
       +database: "ALUMNO6_DEV_SILVER_DB_PR"
       peliculas_info:
-        +schema: dbt_gcuesta
-        +database: ALUMNO6_DEV_SILVER_DB_PR    
+        +schema: dbt_gcuesta   
       api_mas_visto:                          #no hay contratos para sync_all_columns
         +schema: dbt_gcuesta  
 snapshots:
