@@ -18,7 +18,7 @@ SELECT
     EXTRACT(DAY FROM date_day) AS day,
     EXTRACT(DAYOFWEEK FROM date_day) AS day_of_week,
     TRIM(TO_CHAR(date_day, 'MMMM')) AS month_name,
-    TRIM(TO_CHAR(date_day, 'DY')) AS day_name,
+    {{ traducir_dia('date_day') }} AS day_name,
     CASE 
         WHEN date_day <= CURRENT_DATE THEN TRUE
         ELSE FALSE

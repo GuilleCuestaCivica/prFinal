@@ -12,8 +12,8 @@ models:
               field: id_pelicula
         description: "Identificador único de la película."
 
-      - name: id_snap 
-        data_type: varchar 
+      - name: id_snap
+        data_type: varchar
         tests:
           - not_null
           - unique
@@ -69,7 +69,7 @@ models:
               values: [true, false]
         description: "Indicador booleano que señala si el registro es el snapshot más reciente para la película."
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------------------------------
 
   - name: genero_pelicula_puente
     description: "Tabla puente que relaciona películas con los géneros a los que pertenecen."
@@ -90,10 +90,10 @@ models:
           - not_null
           - relationships:
               to: ref('dim_genero')
-              field: id_genero       
+              field: id_genero
         description: "Identificador del género (clave foránea a la tabla de géneros)."
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------------------------------
 
   - name: director_pelicula_puente
     description: "Tabla puente que relaciona películas con los directores que las han dirigido."
@@ -117,22 +117,25 @@ models:
               to: ref('dim_director')
               field: id_director
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------------------------------
 
   - name: dim_movie
     description: "Tabla de dimensión que contiene los atributos descriptivos de las películas."
+    config:
+      contract:
+        enforced: true
     columns:
       - name: id_pelicula
         data_type: varchar
-        tests:
-          - not_null
-          - unique
+        constraints:
+          - type: not_null
+          - type: unique
         description: "Identificador único de la película."
 
       - name: titulo
         data_type: varchar
-        tests:
-          - not_null
+        constraints:
+          - type: not_null
         description: "Título principal de la película."
 
       - name: original_language
@@ -161,7 +164,7 @@ models:
         data_type: varchar
         description: "País principal donde fue producida la película."
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------------------------------
 
   - name: dim_genero
     description: "Tabla de dimensión que contiene los géneros cinematográficos disponibles en el catálogo."
@@ -181,7 +184,7 @@ models:
           - unique
         description: "Nombre del género (por ejemplo, Comedia, Drama, Acción, etc.)."
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------------------------------
 
   - name: dim_director
     description: "Tabla de dimensión que contiene información sobre los directores de películas."
@@ -201,7 +204,7 @@ models:
           - unique
         description: "Nombre completo del director."
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------------------------------------------
 
   - name: dim_date
     description: "Tabla de dimensión de fechas que descompone cada día en atributos calendario útiles para análisis temporal."
@@ -256,20 +259,31 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-              ]
+              values:
+                [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December",
+                ]
 
       - name: day_name
         data_type: varchar
         description: "Nombre del día de la semana (ej: Lunes, Martes)."
         tests:
-        - not_null
+          - not_null
         #- accepted_values:
-            #values: [
-              #"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-            #]
+        #values: [
+        #"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        #]
 
       - name: is_past
         data_type: boolean
@@ -279,5 +293,114 @@ models:
           - accepted_values:
               values: [true, false]
 
+  #------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: dim_pais
+    description: "Dimensión que contiene información demográfica y de preferencias cinematográficas por país."
+
+    columns:
+      - name: pais_id
+        data_type: varchar
+        description: "Identificador único del país."
+        tests:
+          - not_null
+          - unique
+
+      - name: pais_desc
+        data_type: varchar
+        description: "Nombre descriptivo del país."
+        tests:
+          - not_null
+
+      - name: genero_favorito
+        data_type: varchar
+        description: "Género cinematográfico más popular en el país."
+        tests:
+          - not_null
+
+      - name: genero_menos_visto
+        data_type: varchar
+        description: "Género cinematográfico con menor visualización en el país."
+        tests:
+          - not_null
+
+      - name: tendencia_cine
+        data_type: varchar
+        description: "Tendencia general del consumo de cine en el país (ej: Aumento, Estable, Disminución)."
+        tests:
+          - not_null
+
+      - name: 0-18_pct
+        data_type: float
+        description: "Porcentaje de audiencia del país comprendida entre 0 y 18 años."
+
+      - name: 18-24_pct
+        data_type: float
+        description: "Porcentaje de audiencia del país comprendida entre 18 y 24 años."
+
+      - name: 25-34_pct
+        data_type: float
+        description: "Porcentaje de audiencia del país comprendida entre 25 y 34 años."
+
+      - name: 35-44_pct
+        data_type: float
+        description: "Porcentaje de audiencia del país comprendida entre 35 y 44 años."
+
+      - name: 45+_pct
+        data_type: float
+        description: "Porcentaje de audiencia del país de 45 años o más."
+
+      - name: masculino_pct
+        data_type: float
+        description: "Porcentaje de audiencia masculina en el país."
+
+      - name: femenino_pct
+        data_type: float
+        description: "Porcentaje de audiencia femenina en el país."
+
+      - name: otro_pct
+        data_type: float
+        description: "Porcentaje de audiencia que se identifica con otro género en el país."
+
+  #------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: dim_actor
+    description: "Tabla de dimensión que contiene información sobre los actores presentes en el catálogo de películas."
+
+    columns:
+      - name: id_actor
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
+        description: "Identificador único del actor."
+
+      - name: nombre_actores
+        data_type: varchar
+        tests:
+          - not_null
+        description: "Nombre completo del actor o actriz."
+
 #------------------------------------------------------------------------------------------------------------------------------------------
 
+  - name: actor_pelicula_puente
+    description: "Tabla puente que relaciona películas con los actores que participaron en ellas."
+
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_movie')
+              field: id_pelicula
+        description: "Identificador de la película (clave foránea a la tabla de películas)."
+
+      - name: id_actor
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_actor')
+              field: id_actor
+        description: "Identificador del actor (clave foránea a la tabla de actores)."

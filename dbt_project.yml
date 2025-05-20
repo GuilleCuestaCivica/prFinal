@@ -40,7 +40,7 @@ tests:
 
 models:
   proyecto_peliculas:
-   staging:
+    staging:
       +materialized: view
       +intermediate:
         +schema: dbt_gcuesta
@@ -48,7 +48,13 @@ models:
       peliculas_info:
         +schema: dbt_gcuesta   
       api_mas_visto:                          #no hay contratos para sync_all_columns
-        +schema: dbt_gcuesta  
+        +schema: dbt_gcuesta 
+
+    marts:
+      + materialized: table
+      + database: "ALUMNO6_DEV_GOLD_DB_PR"
+      + schema: dbt_gcuesta
+    
 snapshots:
   proyecto_peliculas:
     +target_schema: snapshots
