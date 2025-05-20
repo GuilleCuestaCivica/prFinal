@@ -1,0 +1,70 @@
+models:
+  - name: fct_movie_calification
+    description: "Tabla de hechos que almacena métricas agregadas relacionadas con la calificación de películas a lo largo del tiempo. Esta tabla sigue un enfoque de snapshot para permitir el análisis histórico y actual de popularidad, votos e ingresos."
+
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_movie')
+              field: id_pelicula
+        description: "Identificador único de la película."
+
+      - name: id_snap 
+        data_type: varchar 
+        tests:
+          - not_null
+          - unique
+        description: "Identificador unico de la pelicula ujnto con su id de ingesta para que sea unico"
+
+      - name: snapshot_start
+        data_type: date
+        tests:
+          - not_null
+        description: "Fecha de inicio del periodo de validez del snapshot."
+
+      - name: snapshot_end
+        data_type: date
+        description: "Fecha de fin del periodo de validez del snapshot (puede ser NULL si es el registro actual)."
+
+      - name: popularidad
+        data_type: float
+        tests:
+          - warn_if_nulos_o_cero:
+              column_names:
+                - popularidad
+                - media_votos
+                - conteo_votos
+                - ingresos
+        description: "Métrica de popularidad de la película basada en algoritmos internos o ranking de vistas."
+
+      - name: media_votos
+        data_type: float
+        description: "Promedio de calificación otorgada por los usuarios a la película."
+
+      - name: conteo_votos
+        data_type: number
+        description: "Número total de votos recibidos por la película hasta el snapshot."
+
+      - name: ingresos
+        data_type: number
+        description: "Ingresos acumulados (por ejemplo, en USD) generados por la película hasta el snapshot."
+
+      - name: snapshot_date
+        data_type: date
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date
+        description: "Fecha en la que se tomó el snapshot de los datos."
+
+      - name: is_current
+        data_type: boolean
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+        description: "Indicador booleano que señala si el registro es el snapshot más reciente para la película."

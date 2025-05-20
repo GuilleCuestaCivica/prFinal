@@ -6,13 +6,13 @@ WITH date_spine AS (
 
 {{ dbt_utils.date_spine(
     start_date="'2000-01-01'",
-    end_date="'2024-12-31'",
+    end_date="'2026-12-31'",
     datepart="day"
 ) }}
 )
 
 SELECT 
-    date_day AS date,
+    CAST(date_day AS DATE) AS date,
     EXTRACT(YEAR FROM date_day) AS year,
     EXTRACT(MONTH FROM date_day) AS month,
     EXTRACT(DAY FROM date_day) AS day,

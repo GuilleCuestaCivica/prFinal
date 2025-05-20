@@ -1,6 +1,7 @@
 WITH base AS (
   SELECT
     id_pelicula,
+    id_snap,
     CAST(dbt_valid_from AS DATE) AS snapshot_start,
     CAST(dbt_valid_to AS DATE) AS snapshot_end,
     popularidad,

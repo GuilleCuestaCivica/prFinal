@@ -27,9 +27,6 @@ models:
 
       - name: fecha_estreno
         data_type: date
-        #tests:
-          #- dbt_utils.expression_is_true:
-            #expression: "fecha_estreno <= current_date"
         description: "Fecha de estreno oficial de la película."
 
       - name: popularidad
