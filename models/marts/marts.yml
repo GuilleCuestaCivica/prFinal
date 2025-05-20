@@ -68,3 +68,216 @@ models:
           - accepted_values:
               values: [true, false]
         description: "Indicador booleano que señala si el registro es el snapshot más reciente para la película."
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: genero_pelicula_puente
+    description: "Tabla puente que relaciona películas con los géneros a los que pertenecen."
+
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_movie')
+              field: id_pelicula
+        description: "Identificador de la película (clave foránea a la tabla de películas)."
+
+      - name: id_genero
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_genero')
+              field: id_genero       
+        description: "Identificador del género (clave foránea a la tabla de géneros)."
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: director_pelicula_puente
+    description: "Tabla puente que relaciona películas con los directores que las han dirigido."
+
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        description: "Identificador de la película (clave foránea a la tabla de películas)."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_movie')
+              field: id_pelicula
+
+      - name: id_director
+        data_type: varchar
+        description: "Identificador del director (clave foránea a la tabla de directores)."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_director')
+              field: id_director
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: dim_movie
+    description: "Tabla de dimensión que contiene los atributos descriptivos de las películas."
+    columns:
+      - name: id_pelicula
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
+        description: "Identificador único de la película."
+
+      - name: titulo
+        data_type: varchar
+        tests:
+          - not_null
+        description: "Título principal de la película."
+
+      - name: original_language
+        data_type: varchar
+        tests:
+          - not_null
+        description: "Idioma original en el que fue producida la película (ISO 639-1)."
+
+      - name: fecha_estreno
+        data_type: date
+        tests:
+          - not_null
+        description: "Fecha oficial de estreno de la película."
+
+      - name: duracion
+        data_type: number
+        tests:
+          - not_null
+        description: "Duración de la película en minutos."
+
+      - name: descripcion
+        data_type: varchar
+        description: "Resumen o sinopsis de la película."
+
+      - name: pais_producion
+        data_type: varchar
+        description: "País principal donde fue producida la película."
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: dim_genero
+    description: "Tabla de dimensión que contiene los géneros cinematográficos disponibles en el catálogo."
+
+    columns:
+      - name: id_genero
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
+        description: "Identificador único del género."
+
+      - name: nombre_genero
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
+        description: "Nombre del género (por ejemplo, Comedia, Drama, Acción, etc.)."
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: dim_director
+    description: "Tabla de dimensión que contiene información sobre los directores de películas."
+
+    columns:
+      - name: id_director
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
+        description: "Identificador único del director."
+
+      - name: director
+        data_type: varchar
+        tests:
+          - not_null
+          - unique
+        description: "Nombre completo del director."
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+  - name: dim_date
+    description: "Tabla de dimensión de fechas que descompone cada día en atributos calendario útiles para análisis temporal."
+
+    columns:
+      - name: date
+        data_type: date
+        tests:
+          - not_null
+          - unique
+        description: "Fecha completa en formato calendario (clave primaria de la dimensión)."
+
+      - name: year
+        data_type: number
+        description: "Año correspondiente a la fecha."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 2000
+              max_value: 2026
+
+      - name: month
+        data_type: number
+        description: "Mes numérico correspondiente a la fecha (1-12)."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 12
+
+      - name: day
+        data_type: number
+        description: "Día del mes correspondiente a la fecha (1-31)."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 31
+
+      - name: day_of_week
+        data_type: number
+        description: "Día de la semana como número (0 = Lunes, 6 = Domingo)."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 6
+
+      - name: month_name
+        data_type: varchar
+        description: "Nombre completo del mes correspondiente a la fecha (ej: Enero, Febrero)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+              ]
+
+      - name: day_name
+        data_type: varchar
+        description: "Nombre del día de la semana (ej: Lunes, Martes)."
+        tests:
+        - not_null
+        #- accepted_values:
+            #values: [
+              #"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+            #]
+
+      - name: is_past
+        data_type: boolean
+        description: "Indica si la fecha es anterior al día actual (true = fecha pasada)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
