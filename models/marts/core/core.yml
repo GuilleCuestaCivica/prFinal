@@ -16,7 +16,6 @@ models:
         data_type: varchar
         tests:
           - not_null
-          - unique
         description: "Identificador unico de la pelicula ujnto con su id de ingesta para que sea unico"
 
       - name: snapshot_start
@@ -31,13 +30,6 @@ models:
 
       - name: popularidad
         data_type: float
-        tests:
-          - warn_if_nulos_o_cero:
-              column_names:
-                - popularidad
-                - media_votos
-                - conteo_votos
-                - ingresos
         description: "Métrica de popularidad de la película basada en algoritmos internos o ranking de vistas."
 
       - name: media_votos

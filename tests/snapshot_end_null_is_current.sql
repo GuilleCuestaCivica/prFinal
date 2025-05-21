@@ -1,3 +1,5 @@
+--comprueba que un los registros de la snapshot vienen bien
+
 SELECT 
     *
 FROM {{ ref('fct_movie_calification') }}

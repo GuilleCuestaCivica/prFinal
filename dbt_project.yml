@@ -47,7 +47,7 @@ models:
       +database: "ALUMNO6_DEV_SILVER_DB_PR"
       peliculas_info:
         +schema: dbt_gcuesta   
-      api_mas_visto:                          #no hay contratos para sync_all_columns
+      api_mas_visto:                         
         +schema: dbt_gcuesta 
 
     marts:
