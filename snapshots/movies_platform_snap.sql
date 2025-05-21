@@ -40,3 +40,4 @@ tabla_join AS (
 SELECT * FROM tabla_join WHERE row_num = 1
 
 {% endsnapshot %}
+

@@ -15,7 +15,7 @@ movies_transform AS (
         vote_average AS media_votos,
         vote_count AS conteo_votos,
         genre_names AS genero,
-        director, --poner trim y lower
+        director,
         main_actors AS actores_principales,
         budget AS presupuesto,
         revenue AS ingresos,
