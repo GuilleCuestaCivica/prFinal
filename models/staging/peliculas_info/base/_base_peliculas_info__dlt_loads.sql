@@ -1,7 +1,7 @@
 WITH loads AS(
     SELECT 
         *
-    FROM {{ source('tmdb_movies', '_dlt_loads') }}
+    FROM {{ source('peliculas_info', '_dlt_loads') }}
 
 )
 

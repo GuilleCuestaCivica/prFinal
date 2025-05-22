@@ -1,12 +1,13 @@
 WITH movies AS (
     SELECT 
         *
-    FROM {{ source('tmdb_movies', 'movies') }}
+    FROM {{ source('peliculas_info', 'movies') }}
 ),
 
 movies_transform AS (
     SELECT
-        id,
+        {{ dbt_utils.generate_surrogate_key(["id"]) }} AS id_pelicula,
+        {{ dbt_utils.generate_surrogate_key(["id_pelicula", "_dlt_load_id"]) }} AS id_snap,
         title AS titulo,
         original_language,
         TO_DATE(release_date, 'YYYY-MM-DD') AS fecha_estreno,
@@ -20,9 +21,8 @@ movies_transform AS (
         revenue AS ingresos,
         runtime AS duracion,
         overview AS descripcion,
-        status AS estado,
         production_companies AS compania,
-        production_countries AS pais_producion,
+        SPLIT_PART(production_countries, ',', 1) AS pais_producion,
         _dlt_load_id,
         _dlt_id
     FROM movies
