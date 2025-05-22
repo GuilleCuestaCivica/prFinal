@@ -11,8 +11,8 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
+target-path: "target" 
+clean-targets:        
   - "target"
   - "dbt_packages"
 
@@ -28,7 +28,7 @@ models:
       +materialized: view
       +intermediate:
         +schema: dbt_gcuesta
-      +database: "ALUMNO6_DEV_SILVER_DB_PR"
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB_PR"
       peliculas_info:
         +schema: dbt_gcuesta   
       api_mas_visto:                         
@@ -36,7 +36,7 @@ models:
 
     marts:
       + materialized: table
-      + database: "ALUMNO6_DEV_GOLD_DB_PR"
+      + database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB_PR"
       + schema: dbt_gcuesta
     
 snapshots:
