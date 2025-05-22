@@ -9,6 +9,7 @@ models:
         description: "Identificador único de la película, generado como surrogate key."
         tests:
           - not_null
+          - unique
 
       - name: id_snap
         data_type: varchar
